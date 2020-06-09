@@ -43,7 +43,28 @@ function findCommonPrefix(words, position) {
 }
 
 var longestCommonPrefix = function(strs) {
-  return findCommonPrefix(strs, 0);
+  if (strs === undefined || strs.length === 0) {
+    return "";
+  }
+
+  let position = 1;
+  let prefix = "";
+  let repeat = true;
+  while (repeat) {
+    prefix = strs[0].slice(0, position);
+
+    for (let i = 0; i < strs.length; i++) {
+      if (position > strs[i].length) {
+        return prefix.slice(0, position - 1);
+      }
+      const slice = strs[i].slice(0,position);
+      if (slice !== prefix) {
+        return prefix.slice(0, position - 1);
+      }
+    }
+    position++;
+  }
+
 };
 
 module.exports = longestCommonPrefix;
