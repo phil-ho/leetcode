@@ -3,21 +3,20 @@
  * @return {number}
  */
 var removeDuplicates = function(nums) {
-  let prevNum = nums[0];
-  let originalLength = nums.length;
-  let index = 1;
+  if (nums.length === 0) {
+    return 0;
+  }
 
-  while (index < nums.length) {
-    const thisNum = nums[index];
-    if (thisNum === prevNum) {
-      nums.splice(index, 1);
-    } else {
-      prevNum = nums[index];
+  let index = 0;
+
+  for (let i = 1; i < nums.length; i++) {
+    if (nums[i] !== nums[index]) {
       index++;
+      nums[index] = nums[i];
     }
   }
 
-  return nums.length;
+  return index + 1;
 };
 
 module.exports = removeDuplicates;
