@@ -1,53 +1,50 @@
 function isValidSubsequence(array, sequence) {
-  // as i understand it, a subsequence of an array is an array
-	// that contains some of the numbers from the array, in the same order
+	// array and sequence cannot be empty
 
-	// clarifying questions:
-	// given [1,2,3]
-	// [1], [2], [1, 2], [1,3] are examples of subsequences?
-	// [3, 1] is not a subsequence?
-	// it says set of numbers, but does that mean they're unique or
-	// can we have repeat numbers?
+  // if sequence size is greater than array size return false
 
-	// input: an array, and a 2nd array which is or isn't a subsequence of the first array
-	// output: boolean value indicating if 2nd array is a subsequence
-	// constraints: none
-	// edge case: a single number in an array and the array itself are both valid subsequences of the array
+	// search going from the edges of the array inwards for sequence numbers
 
-	// naive approach
-	// declare marker = 0;
-	// iterate through sequence
-		// iterate through array starting at marker
-	    // if sequence[i] === array[i]
-	       // marker = i
-	       // continue
-   // if no match was found, return false since all numbers in the sequence
-	 // must exist in the array for it to be a subsequence
+	// arrayStart = 0, arrayEnd = array.length - 1
+	// sequenceStart = 0, sequenceEnd = sequence.length - 1
 
-	// if we get to the end of sequence, return true
+	// iterate through array from edge to middle
+		// does element at arrayStart equal sequenceStart
+			// if yes, increment sequenceStart pointer
+		// does element at arrayEnd equal sequenceEnd
+			// if yes, decrement sequenceEnd pointer
 
+		// increment arrayStart
+		// decrement arrayEnd
+
+	// we stop when arrayStart = arrayEnd OR sequenceStart === sequenceEnd
+
+	// sequence out of bounds
 	if (sequence.length > array.length) {
 		return false;
 	}
 
-	let marker = 0;
+	let arrayStart = 0;
+	let arrayEnd = array.length - 1;
+	let sequenceStart = 0;
+	let sequenceEnd = sequence.length - 1;
 
-	for (let i = 0; i < sequence.length; i++) {
-		let matchFound = false;
-
-		for (let j = marker; j < array.length; j++) {
-			if (sequence[i] === array[j]) {
-				marker = j + 1;
-				j = array.length;
-				matchFound = true;
-			}
+	while(arrayStart <= arrayEnd) {
+		if (array[arrayStart] === sequence[sequenceStart]) {
+			sequenceStart++;
+		}
+		if (array[arrayEnd] === sequence[sequenceEnd]) {
+			sequenceEnd--;
 		}
 
-		if (matchFound === false) {
-			return false;
+		if (sequenceStart > sequenceEnd) {
+			return true;
 		}
+
+		arrayStart++;
+		arrayEnd--;
 	}
 
-	return true;
+	return false;
 }
-// Time: O(m*n), Space: O(1)
+// Time: O(n), Space: O(1)
