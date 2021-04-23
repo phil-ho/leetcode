@@ -1,93 +1,32 @@
 function sortedSquaredArray(array) {
-	// if the array is 1 long, return array with value squared
-	if (array.length === 1) {
-		return [array[0]**2];
-	}
+  // can we get rid of the searching from solution 2?
+	// yes!!
+	// if we traverse and fill the array from largest to smallest
+	// we don't have to find zero
 
-  // if the array is sorted and we know that negative numbers
-	// when squared are positive then we can use 2 pointers to traverse
-	// the array in order of the result by comparing
+	// iterate through array with 2 pointers on outsides
+	// left is 0, right is array.length -1
+	// left is going to be the 'largest' negative number
+	// right is going to be the largest positive number
+	// if left^2 > right^2 use left and move left pointer up
+	// if right ^2 > left^2 use right and move right pointer down
+	// insert larger value into new array at end
 
-	// iterate array using 2 pointers from zero out
-	// one pointer moves more negative
-	// one pointer moves more positive
-	// each iteration we compare the absolute values of the numbers
-	// to determine which number to square next
+	let left = 0;
+	let right = array.length - 1;
+	let sortedSquares = new Array(array.length).fill(0);
 
-	// we would need to iterate once through the array
-	// to find the 2 values closest to zero
-	// since array is sorted, we can even do this by binary search
-
-	// look for zero
-		// find midpoint of array
-		// is this value greater than or less than zero
-		// if greater, look again in the smaller half
-	  // if smaller, look in the larger half
-	let start = 0;
-	let end = array.length - 1;
-
-	const findClosestToZero = (start, end) => {
-    if (start === end) {
-        return start;
-    }
-
-    const midpoint = start + Math.floor((end - start) / 2);
-
-    if (array[midpoint] === 0) {
-        return midpoint;
-    } else if (array[midpoint] > 0) {
-				const newEnd = Math.max(midpoint - 1, 0);
-        return findClosestToZero(start, newEnd);
-    } else {
-				const newStart = Math.min(midpoint + 1, array.length - 1)
-        return findClosestToZero(newStart, end);
-    }
-	}
-
-	const startIndex = findClosestToZero(start, end);
-	let left;
-	let right;
-
-	if (array[startIndex] < 0) {
-		left = startIndex;
-		right = startIndex + 1;
-	} else {
-		left = startIndex - 1;
-		right = startIndex;
-	}
-
-	const sortedAndSquared = [];
-	const compareAbs = (left, right) => {
-		if (left === undefined) {
-			return 1;
-		}
-		if (right === undefined) {
-			return -1;
-		}
-
-		if (Math.abs(left) < Math.abs(right)) {
-			return -1;
-		}
-
-		return 1;
-	}
-
-	while(sortedAndSquared.length < array.length) {
-		const leftValue = array[left];
-		const rightValue = array[right];
-		const direction = compareAbs(leftValue, rightValue);
-		console.log(leftValue, rightValue, direction);
-		if (direction < 0) {
-			sortedAndSquared.push(leftValue**2);
-			left--;
+	for (let i = array.length - 1; i >= 0; i--) {
+		if (array[left]**2 > array[right]**2) {
+			sortedSquares[i] = array[left]**2;
+			left++;
 		} else {
-			sortedAndSquared.push(rightValue**2);
-			right++;
+			sortedSquares[i] = array[right]**2;
+			right--;
 		}
 	}
 
-	console.log(array, sortedAndSquared);
-	return sortedAndSquared;
+	return sortedSquares;
 }
 
-// O(n + logn) time, O(n) space
+// O(n) time, O(n) space
