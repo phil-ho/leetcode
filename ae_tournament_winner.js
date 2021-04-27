@@ -37,27 +37,14 @@ function tournamentWinner(competitions, results) {
 	for (let i = 0; i < competitions.length; i++) {
 		const home = competitions[i][0];
 		const away = competitions[i][1];
+		const winner = (results[i] === 1) ? home : away;
 
-		let homeScore = score[home] || 0;
-		let awayScore = score[away] || 0;
+		score[winner] = score[winner] || 0;
+		score[winner] += 3;
 
-		if (results[i] === 1) {
-			homeScore += 3;
-		} else {
-			awayScore += 3;
-		}
-
-		score[home] = homeScore;
-		score[away] = awayScore;
-
-		if (homeScore > maxScore) {
-			maxScore = homeScore;
-			maxTeam = home;
-		}
-
-		if (awayScore > maxScore) {
-			maxScore = awayScore;
-			maxTeam = away;
+		if (score[winner] > maxScore) {
+			maxScore = score[winner];
+			maxTeam = winner;
 		}
 	}
 
