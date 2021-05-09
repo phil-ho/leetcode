@@ -20,19 +20,19 @@ function classPhotos(redShirtHeights, blueShirtHeights) {
 	redShirtHeights.sort((a,b) => a - b);
 	blueShirtHeights.sort((a,b) => a - b);
 
-	let redShirtsTaller = true;
-	let blueShirtsTaller = true;
+	let front;
+	let back;
 
-	for (let i = 0; i < redShirtHeights.length; i++) {
-		if (redShirtHeights[i] <= blueShirtHeights[i]) {
-			redShirtsTaller = false;
-		}
+	if (redShirtHeights[0] < blueShirtHeights[0]) {
+		front = redShirtHeights;
+		back = blueShirtHeights;
+	} else {
+		front = blueShirtHeights;
+		back = redShirtHeights;
+	}
 
-		if (blueShirtHeights[i] <= redShirtHeights[i]) {
-			blueShirtsTaller = false;
-		}
-
-		if (!redShirtsTaller && !blueShirtsTaller) {
+	for (let i = 0; i < back.length; i++) {
+		if (front[i] >= back[i]) {
 			return false;
 		}
 	}
