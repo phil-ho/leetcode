@@ -1,71 +1,26 @@
-function fastestTotalSpeed(red, blue) {
-	// slowestRed = 0, fastestRed = red.length - 1;
-	// slowestBlue = 0, fastestBlue = blue.length - 1;
-	// totalSpeed = 0;
-
-	// iterate n times,
-	  // compare fastestRed to fastestBlue
-	  // take fastest rider and match with slowest from other group
-		// add fastest's speed to the totalSpeed
-	  // decrement the fastest pointer
-	  // increment the slowest pointer
-
-	// return totalSpeed
-  let totalSpeed = 0;
-  let slowestRed = 0;
-  let fastestRed = red.length - 1;
-  let slowestBlue = 0;
-  let fastestBlue = blue.length - 1;
-
-  for (let i = 0; i < red.length; i++) {
-    let fastestSpeed;
-    if (red[fastestRed] >= blue[fastestBlue]) {
-      fastestSpeed = red[fastestRed--];
-    } else {
-      fastestSpeed = blue[fastestBlue--];
-    }
-
-    let slowestSpeed;
-    if (red[slowestRed] <= blue[slowestBlue]) {
-      slowestSpeed = red[slowestRed++];
-    } else {
-      slowestSpeed = blue[slowestBlue++];
-    }
-
-    totalSpeed += fastestSpeed;
-  }
-
-  return totalSpeed;
-}
-
-function slowestTotalSpeed(red, blue) {
-	// totalSpeed = 0;
-	// iterate n times from 0
-	  // compare red rider at n to blue rider at n
-	  // take fastest of the 2 and add to totalSpeed
-	// return totalSpeed
-
-	let totalSpeed = 0;
-	for (let i = 0; i < red.length; i++) {
-		totalSpeed += (red[i] >= blue[i]) ? red[i] : blue[i];
-	}
-
-	return totalSpeed;
-}
-
 function tandemBicycle(redShirtSpeeds, blueShirtSpeeds, fastest) {
-  if (redShirtSpeeds.length === 0) {
-		return 0;
-	}
+  // The patterns:
+	// for fastest total speed
+	// we match up the fastest riders in one group
+	// with the slowest riders in the other
+	// the key is this is symmetrical, the fastest riders
+	// from one group will always be paired with the slowest
+	// riders from the other group
+
+	// for slowest total speed
+	// we match up the slowest riders from both groups
+	// and record the fastest of the pair
 
 	redShirtSpeeds.sort((a, b) => a - b);
-	blueShirtSpeeds.sort((a, b) => a - b);
+	blueShirtSpeeds.sort((a, b) => fastest ? (b - a) : (a - b));
 
-	if (fastest) {
-		return fastestTotalSpeed(redShirtSpeeds, blueShirtSpeeds);
-	} else {
-		return slowestTotalSpeed(redShirtSpeeds, blueShirtSpeeds);
+	let totalSpeed = 0;
+
+	for (let i = 0; i < redShirtSpeeds.length; i++) {
+		totalSpeed += Math.max(redShirtSpeeds[i], blueShirtSpeeds[i]);
 	}
+
+  return totalSpeed;
 }
 
 let totalSpeed;
