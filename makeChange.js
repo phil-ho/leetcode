@@ -32,7 +32,8 @@ var makeChange = function(total, coins = [1, 2, 5, 10, 20, 50, 100, 200]) {
   // if total is zero, return zero
   // create new set of coins by filtering out coins who's values are greater than total
   // find unique combinations
-  // console.log(total, coins);
+  //    finding unique combinations means running through all combinations
+  //    but decreasing the number of possibilities as we go
   if (total === 0) {
     return 0;
   }
