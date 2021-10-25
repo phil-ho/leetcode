@@ -1,27 +1,24 @@
-function selectionSortHelper(start, array) {
-  let smallest = start;
-
-  for (let i = start + 1; i < array.length; i++) {
-    let smallestValue = array[smallest];
-    let thisValue = array[i];
-
-    if (thisValue < smallestValue) {
-      smallest = i;
-    }
-  }
-
-  let firstValue = array[start];
-  let smallestValue = array[smallest];
-  array[start] = smallestValue;
-  array[smallest] = firstValue;
+function swap(array, index1, index2) {
+  const temp = array[index1];
+  array[index1] = array[index2];
+  array[index2] = temp;
 }
 
 function selectionSort(array) {
   for (let i = 0; i < array.length; i++) {
-    selectionSortHelper(i, array);
+    let indexOfSmallest = i;
+
+    for (let j = i + 1; j < array.length; j++) {
+      if (array[j] < array[indexOfSmallest]) {
+        indexOfSmallest = j;
+      }
+    }
+
+    swap(array, i, indexOfSmallest);
   }
 
   return array;
 }
 
 module.exports = selectionSort;
+// O(n^2) time, O(1) space
